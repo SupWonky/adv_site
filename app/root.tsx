@@ -1,13 +1,21 @@
 import {
+  data,
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
-} from "@remix-run/react";
-import type { LinksFunction } from "@remix-run/node";
+} from "react-router";
+import type { LinksFunction, LoaderFunctionArgs } from "react-router";
 
 import "./tailwind.css";
+import { createGuestSession, getSessionId, getUser } from "./session.server";
+import { ModalProvider } from "./components/providers/modal-provider";
+import { ModalRouter } from "./components/modals/router";
+import { ModalRoute } from "./components/modals/route";
+import { ProjectCateogryDialog } from "./components/modals/project-category";
+import { CallFormDialog } from "./components/modals/call-form";
+import { Toaster } from "./components/ui/sonner";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -22,6 +30,18 @@ export const links: LinksFunction = () => [
   },
 ];
 
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const user = await getUser(request);
+  const session = await getSessionId(request);
+
+  if (!session) {
+    const cookie = await createGuestSession(request);
+    return data({ user }, { headers: { "Set-Cookie": cookie } });
+  }
+
+  return { user };
+};
+
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
@@ -31,10 +51,22 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body>
-        {children}
+      <body className="min-h-svh bg-muted dark:bg-background font-sans antialiased flex flex-col">
+        <ModalProvider>
+          {children}
+
+          <ModalRouter>
+            <ModalRoute
+              path="project/category"
+              component={<ProjectCateogryDialog />}
+            />
+            <ModalRoute path="call" component={<CallFormDialog />} />
+          </ModalRouter>
+        </ModalProvider>
+
         <ScrollRestoration />
         <Scripts />
+        <Toaster />
       </body>
     </html>
   );
