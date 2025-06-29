@@ -109,7 +109,6 @@ interface SidebarItemProps {
 
 function SidebarItem({ item, onOpenChange }: SidebarItemProps) {
   const { navigate, navigateBack, paths } = useSidebar();
-  const visible = paths.some((path) => path === item.url);
 
   if (item.type === "item") {
     return (
@@ -123,6 +122,8 @@ function SidebarItem({ item, onOpenChange }: SidebarItemProps) {
       </MobileLink>
     );
   }
+
+  const visible = paths.some((path) => path === item.url);
 
   if (!item.children || item.children.length === 0) {
     return null;

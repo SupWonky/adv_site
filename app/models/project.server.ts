@@ -2,16 +2,10 @@ import { File, Project, ProjectCategory } from "@prisma/client";
 import { prisma } from "~/db.server";
 import { formatSlug } from "~/lib/utils";
 
-export async function getProjects(filters?: {
-  categoryId?: ProjectCategory["id"];
-  cateogrySlug?: ProjectCategory["slug"];
-}) {
-  const where = filters
+export async function getProjects(categoryId?: ProjectCategory["id"]) {
+  const where = categoryId
     ? {
-        ...(filters.categoryId ? { categoryId: filters.categoryId } : {}),
-        ...(filters.cateogrySlug
-          ? { category: { slug: filters.cateogrySlug } }
-          : {}),
+        ...(categoryId ? { categoryId: categoryId } : {}),
       }
     : {};
 
@@ -72,6 +66,14 @@ export async function getPopularProjects(limit: number) {
 
 export async function getProjectCategories() {
   return prisma.projectCategory.findMany();
+}
+
+export async function getProjectCategory(slug: ProjectCategory["slug"]) {
+  return prisma.projectCategory.findFirst({
+    where: {
+      slug,
+    },
+  });
 }
 
 export async function createProject({

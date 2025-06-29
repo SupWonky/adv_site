@@ -19,32 +19,31 @@ type SiteHeaderProps = {
 };
 
 export function SiteHeader({ services, projectCategoires }: SiteHeaderProps) {
-  const serviceMenuItems = React.useMemo(() => {
-    const serviceItems = mapToNavigationItems(services, {
-      getLabelFn: (item) => item.name,
-      getUrlFn: (item) => `/services/${item.url}`,
-      getChildrenFn: (item) => item.children,
-    });
-
-    return {
-      label: "Направления",
-      url: "/services",
-      type: "nested" as "nested" | "item",
-      children: serviceItems,
-    };
-  }, [services]);
-  const projectCategoiresItems = React.useMemo(() => {
-    return {
+  const menuItems = React.useMemo(() => {
+    const projectCategoiresItems = {
       label: "Проекты",
       url: "/projects",
-      type: "nested" as "nested" | "item",
+      type: "item" as "nested" | "item",
       children: projectCategoires.map((item) => ({
         label: item.name,
         url: `/projects/${item.slug}`,
         type: "item" as "nested" | "item",
       })),
     };
-  }, [projectCategoires]);
+    const serviceMenuItems = {
+      label: "Направления",
+      url: "/services",
+      type: "nested" as "nested" | "item",
+      children: mapToNavigationItems(services, {
+        getLabelFn: (item) => item.name,
+        getUrlFn: (item) => `/services/${item.url}`,
+        getChildrenFn: (item) => item.children,
+      }),
+    };
+
+    return [serviceMenuItems, projectCategoiresItems];
+  }, [projectCategoires, services]);
+
   const { setModal } = useModal();
   const { scrollY } = useScroll();
 
@@ -55,7 +54,7 @@ export function SiteHeader({ services, projectCategoires }: SiteHeaderProps) {
           <MainNav />
         </div>
 
-        <NavigationMenu items={[serviceMenuItems, projectCategoiresItems]} />
+        <NavigationMenu items={menuItems} />
       </div>
 
       <div
@@ -71,7 +70,7 @@ export function SiteHeader({ services, projectCategoires }: SiteHeaderProps) {
               <span className="text-xl font-bold ">{siteConfig.name}</span>
             </Link>
             <NavigationMenu
-              items={[serviceMenuItems, projectCategoiresItems]}
+              items={menuItems}
               classNames={{
                 itemStyle:
                   "hover:bg-transparent aria-expanded:border-b border-primary bg-transparent text-foreground",
@@ -95,13 +94,13 @@ export function SiteHeader({ services, projectCategoires }: SiteHeaderProps) {
         )}
       >
         <div className="container mx-auto h-14 flex items-center justify-between">
-          <Sidebar items={[serviceMenuItems]} />
+          <Sidebar items={menuItems} />
           <div className="hidden lg:flex gap-4">
             <Link to="/" className="flex items-center">
               <span className="text-xl font-bold ">{siteConfig.name}</span>
             </Link>
             <NavigationMenu
-              items={[serviceMenuItems, projectCategoiresItems]}
+              items={menuItems}
               classNames={{
                 itemStyle:
                   "hover:bg-transparent aria-expanded:border-b border-primary bg-transparent text-foreground",

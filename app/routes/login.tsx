@@ -1,5 +1,5 @@
-import { ActionFunctionArgs, LoaderFunctionArgs, redirect } from "react-router";
-import { Form, useActionData, useSearchParams } from "react-router";
+import { redirect } from "react-router";
+import { Form, useSearchParams } from "react-router";
 import { z } from "zod";
 import { createUserSession, getUserId } from "~/session.server";
 import { getZodConstraint, parseWithZod } from "@conform-to/zod";
@@ -17,6 +17,7 @@ import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
 import { Checkbox } from "~/components/ui/checkbox";
+import { Route } from "./+types/login";
 
 const schema = z.object({
   email: z
@@ -27,7 +28,7 @@ const schema = z.object({
   redirectTo: z.string().optional(),
 });
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
+export const loader = async ({ request }: Route.LoaderArgs) => {
   const userId = await getUserId(request);
 
   if (userId) return redirect("/");
@@ -35,7 +36,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   return {};
 };
 
-export const action = async ({ request }: ActionFunctionArgs) => {
+export const action = async ({ request }: Route.ActionArgs) => {
   const fromData = await request.formData();
   const submission = parseWithZod(fromData, {
     schema,
@@ -64,12 +65,15 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   });
 };
 
-export default function LoginPage() {
+export const meta: Route.MetaFunction = () => {
+  return [{ title: "Войти в аккаунт" }];
+};
+
+export default function LoginPage({ actionData }: Route.ComponentProps) {
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get("redirectTo") || "/";
-  const lastResult = useActionData<typeof action>();
   const [form, fields] = useForm({
-    lastResult,
+    lastResult: actionData,
     constraint: getZodConstraint(schema),
   });
 

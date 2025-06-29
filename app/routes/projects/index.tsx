@@ -1,14 +1,19 @@
 import { getProjectCategories } from "~/models/project.server";
 import { Route } from "./+types";
-import { NavLink, Outlet, useParams } from "react-router";
+import { MetaFunction, NavLink, Outlet, useParams } from "react-router";
 import { cn } from "~/lib/utils";
 import { PageHeading } from "~/components/heading";
+import { siteConfig } from "~/config/site";
 
 export async function loader() {
   const categories = await getProjectCategories();
 
   return { categories };
 }
+
+export const meta: MetaFunction = ({ data }) => {
+  return [{ title: `Выполненные проекты - ${siteConfig.name}` }];
+};
 
 export default function ProjectsPage({ loaderData }: Route.ComponentProps) {
   const { categories } = loaderData;

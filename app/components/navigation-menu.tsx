@@ -63,7 +63,18 @@ export function NavigationMenu({ items, classNames }: NavigationMenuProps) {
                 className={classNames?.itemStyle}
               />
             ) : (
-              <MenuItem {...item} className={classNames?.itemStyle} />
+              <NavLink
+                to={item.url}
+                className={({ isActive }) =>
+                  cn(
+                    "flex items-center h-full px-4 gap-1.5 font-semibold text-background transition-colors",
+                    isActive ? "bg-green-700" : "hover:bg-green-500",
+                    classNames?.itemStyle
+                  )
+                }
+              >
+                {item.label}
+              </NavLink>
             )}
           </React.Fragment>
         ))}

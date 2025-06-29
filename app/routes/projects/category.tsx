@@ -1,14 +1,27 @@
-import { getProjects } from "~/models/project.server";
+import { getProjectCategory, getProjects } from "~/models/project.server";
 import { Route } from "./+types/category";
 import { Link } from "react-router";
 import { getImageURL } from "~/lib/utils";
 import { Card } from "~/components/ui/card";
 import { ArrowRightIcon } from "@radix-ui/react-icons";
+import { siteConfig } from "~/config/site";
 
 export async function loader({ params }: Route.LoaderArgs) {
-  const projects = await getProjects({ cateogrySlug: params.categorySlug });
-  return { projects };
+  const category = await getProjectCategory(params.categorySlug);
+
+  if (!category) {
+    throw new Response("Not Found", { status: 404 });
+  }
+
+  const projects = await getProjects(category.id);
+  return { projects, category };
 }
+
+export const meta: Route.MetaFunction = ({ data }) => {
+  return [
+    { title: `Выполненные проекты ${data.category.name} - ${siteConfig.name}` },
+  ];
+};
 
 export default function ProjectCategoryPage({
   loaderData,

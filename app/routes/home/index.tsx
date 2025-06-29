@@ -9,12 +9,12 @@ import { HeroSlider } from "~/components/slider";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: `${siteConfig.name} - Главаня` },
+    { title: `${siteConfig.name} - Главная` },
     { name: "description", content: "Welcome to Remix!" },
   ];
 };
 
-export async function loader({}: Route.LoaderArgs) {
+export async function loader() {
   const popularServices = await getPopularServices(6);
   const popularProjects = await getPopularProjects(7);
 

@@ -12,6 +12,7 @@ import {
 import { useState } from "react";
 import { getImageURL } from "~/lib/utils";
 import { PageHeading } from "~/components/heading";
+import { siteConfig } from "~/config/site";
 
 export async function loader({ params }: Route.LoaderArgs) {
   const project = await getProjectBySlug(params.slug);
@@ -22,6 +23,10 @@ export async function loader({ params }: Route.LoaderArgs) {
 
   return { project };
 }
+
+export const meta: Route.MetaFunction = ({ data }) => {
+  return [{ title: `Проект ${data.project.name} - ${siteConfig.name}` }];
+};
 
 export default function ProjectPage({ loaderData }: Route.ComponentProps) {
   const { project } = loaderData;

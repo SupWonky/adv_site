@@ -29,11 +29,6 @@ interface Chat {
 
 export function FloatingChat({ chat }: { chat?: Chat }) {
   const user = useOptionalUser();
-
-  if (user) {
-    return null;
-  }
-
   const fetcher = useFetcher<typeof action>();
   const [messages, setMessages] = useState<ChatMessage[]>(chat?.messages ?? []);
   const [isOpen, setOpen] = useState<boolean>(false);
@@ -100,6 +95,10 @@ export function FloatingChat({ chat }: { chat?: Chat }) {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  if (user) {
+    return null;
+  }
 
   return (
     <Popover open={isOpen} onOpenChange={setOpen}>
