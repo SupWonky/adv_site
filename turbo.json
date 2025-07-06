@@ -1,0 +1,24 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", "build/**", "lib/**"]
+    },
+    "dev": {
+      "dependsOn": ["^dev"],
+      "outputs": ["dist/**", "build/**", "lib/**"]
+    },
+    "clean": {
+      "dependsOn": ["^clean"],
+      "outputs": ["dist/**", "lib/**"]
+    },
+    "test": {
+      "dependsOn": ["^test"],
+      "outputs": []
+    },
+    "manifest:version": {
+      "dependsOn": ["^manifest:version"]
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "@proj-adv/cache",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rm -rf dist",
+    "dev": "tsc -b --watch"
+  },
+  "files": [
+    "dist"
+  ]
+}

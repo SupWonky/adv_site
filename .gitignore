@@ -1,7 +1,12 @@
-node_modules
-
-.react-router/
-/.cache
-/build
-.env
+# Builds and deps
+**/node_modules
+build
+**/.cache/
+**/.pnp.*
+dist
 uploads
+**/.react-router/
+
+# Enviroments
+.env
+**/.env

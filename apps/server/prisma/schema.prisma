@@ -1,0 +1,189 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum FileType {
+  IMAGE
+  MOVIE
+  OTHER
+}
+
+enum Status {
+  DRAFT
+  PUBLISHED
+}
+
+enum SubmissionStatus {
+  NEW
+  ARCHIVED
+  REVIEWED
+}
+
+model User {
+  id        String   @id @default(cuid(2))
+  email     String   @unique
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  password Password?
+  messages       ChatMessage[]
+}
+
+model Password {
+  hash   String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String @unique
+}
+
+model Service {
+  id          String   @id @default(cuid(2))
+  name        String   
+  slug        String   @unique
+  title       String
+  description String
+  url         String?
+  path        String   @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  status      Status   @default(DRAFT)
+  content     Json?
+
+  image   File?  @relation(fields: [imageId], references: [id])
+  imageId String?
+
+  parent   Service? @relation(name: "ChildrenCategories", fields: [parentId], references: [id])
+  parentId String?
+
+  children    Service[] @relation("ChildrenCategories")
+  submission  Submission[]
+}
+
+
+model Project {
+  id          String    @id   @default(cuid(2))
+  name        String
+  slug        String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  category    ProjectCategory @relation(fields: [categoryId], references: [id])
+  categoryId  String
+  images      File[]
+  submission  Submission[]
+}
+
+model ProjectCategory {
+  id          String  @id @default(cuid(2))
+  name        String
+  slug        String
+
+  projects    Project[]
+}
+
+model File {
+  id        String    @id @default(cuid(2))
+  name      String?
+  uri       String    @unique
+  type      FileType
+  createdAt DateTime  @default(now())
+
+  services   Service[]
+  projects   Project[]
+  
+  @@index([uri])
+}
+
+
+model Chat {
+  id             Int     @id @default(autoincrement())
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  guestSessionId String?
+
+  messages       ChatMessage[]
+}
+
+
+model ChatMessage {
+  id        Int     @id @default(autoincrement())
+  text      String  
+  read      Boolean   @default(false)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime?    @updatedAt
+
+  chat      Chat    @relation(fields: [chatId], references: [id])   
+  chatId    Int
+
+  userId         String?       // For tracking which staff member sent the message
+  user           User?         @relation(fields: [userId], references: [id])
+}
+
+
+model Form {
+    id            Int         @id @default(autoincrement())
+    name          String   
+    slug          String? 
+    description   String?
+    createdAt     DateTime          @default(now())
+
+    fields        FormField[]
+    submissions   Submission[]
+}
+
+model FormField {
+    id            Int         @id @default(autoincrement())
+    name          String    
+    label         String
+    type          String      @default("TEXT")
+    required      Boolean     @default(false)
+    validationRules Json?      
+
+    form          Form        @relation(fields: [formId], references: [id])
+    formId        Int
+    fieldValues   FieldValue[]
+}
+
+model Submission {
+  id            Int           @id @default(autoincrement())
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  status        SubmissionStatus  @default(NEW)
+  guestSessionId String?
+
+  form          Form          @relation(fields: [formId], references: [id])
+  formId        Int
+  service       Service?      @relation(fields: [serviceId], references: [id])
+  serviceId     String?
+  project       Project?      @relation(fields: [projectId], references: [id]) 
+  projectId     String?
+  fieldValues   FieldValue[]
+}
+
+model FieldValue {
+  value         String
+  field         FormField   @relation(fields: [fieldId], references: [id], onDelete: Cascade, onUpdate: Cascade)   
+  fieldId       Int
+  submission    Submission  @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  submissionId  Int  
+
+  @@id([fieldId, submissionId])
+}
+
+
+model Setting {
+  id    Int     @id @default(autoincrement())
+  key   String  @unique
+  value Json
+}

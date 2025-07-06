@@ -1,0 +1,9 @@
+
+
+> @proj-adv/cache@1.0.0 dev /home/ihop/personal/proj_adv/packages/cache
+> tsc -b --watch
+
+[2J[3J[H[[90m19:42:07[0m] Starting compilation in watch mode...
+
+[[90m19:42:07[0m] Found 0 errors. Watching for file changes.
+
