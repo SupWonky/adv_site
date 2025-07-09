@@ -1,6 +1,6 @@
 import { useFetcher } from "react-router";
 import { z } from "zod";
-import { getSettings, updateSetting } from "~/models/setting.server";
+import { settingService } from "~/models/setting.server";
 import { Route } from "./+types/settings";
 import { JsonValue } from "@prisma/client/runtime/library";
 import { useEffect, useState } from "react";
@@ -46,7 +46,7 @@ export const meta: Route.MetaFunction = () => {
 };
 
 export async function loader() {
-  const settings = await getSettings();
+  const settings = await settingService.getSettings();
   return { settings };
 }
 
@@ -67,7 +67,10 @@ export async function action({ request }: Route.ActionArgs) {
     return submission.reply();
   }
 
-  await updateSetting(settingKey, JSON.stringify(submission.value));
+  await settingService.updateSetting(
+    settingKey,
+    JSON.stringify(submission.value)
+  );
 
   return submission.reply();
 }

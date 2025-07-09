@@ -30,6 +30,7 @@
     },
     "rootDirs": [".", "./.react-router/types"],
     "composite": true,
+    "experimentalDecorators": true,
 
     // Vite takes care of building everything, not tsc.
     "noEmit": true

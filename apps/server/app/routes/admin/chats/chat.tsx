@@ -104,7 +104,7 @@ export default function ChatPage() {
   }, [messages]);
 
   return (
-    <div className="flex flex-col flex-1 h-full relative">
+    <div className="flex flex-col flex-1 h-full relative" key={chat.id}>
       <div className="px-4 py-3 border-b flex items-center gap-3 backdrop-blur bg-background/60 absolute top-0 left-0 right-0 z-10">
         <Link
           to=".."

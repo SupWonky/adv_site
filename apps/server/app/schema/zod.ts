@@ -80,6 +80,15 @@ const FormActionSchema = z.discriminatedUnion("intent", [
   }),
 ]);
 
+const LoginSchmea = z.object({
+  email: z
+    .string({ message: "Введите почту" })
+    .email({ message: "Неправильный формат почты" }),
+  password: z.string({ message: "Введите пароль" }),
+  remember: z.boolean().optional(),
+  redirectTo: z.string().optional(),
+});
+
 export {
   ServiceSchema,
   MessageSchema,
@@ -88,4 +97,5 @@ export {
   CallSchema,
   FormSchema,
   FormActionSchema,
+  LoginSchmea,
 };

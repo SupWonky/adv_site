@@ -103,12 +103,12 @@ const defaultSlides: Slide[] = [
   },
 ];
 
-export const HeroSlider = ({
+export function HeroSlider({
   slides = defaultSlides,
   autoPlayInterval = 5000,
   showArrows = true,
   showDots = true,
-}: HeroSliderProps) => {
+}: HeroSliderProps) {
   const [currentIndex, setCurrentIndex] = React.useState(1);
   const currentIndexRef = React.useRef(currentIndex);
   const [isAutoPlaying, setIsAutoPlaying] = React.useState(true);
@@ -122,12 +122,12 @@ export const HeroSlider = ({
   const timerRef = React.useRef<NodeJS.Timeout>();
   const sliderRef = React.useRef<HTMLDivElement>(null);
 
-  const clonedSlides = React.useMemo(() => {
+  const slidesToRender = React.useMemo(() => {
     if (slides.length === 0) return [];
 
     return [slides[slides.length - 1], ...slides, slides[0]];
   }, [slides]);
-  const totalSlides = clonedSlides.length;
+  const totalSlides = slidesToRender.length;
   const currentSlide = React.useMemo(() => {
     if (currentIndex === 0) return slides.length - 1;
     if (currentIndex === totalSlides - 1) return 0;
@@ -294,9 +294,9 @@ export const HeroSlider = ({
         role="group"
         ref={sliderRef}
       >
-        {clonedSlides.map((slide, index) => (
+        {slidesToRender.map((slide, index) => (
           <SlideContent
-            key={index}
+            key={slide.id}
             slide={slide}
             isActive={currentIndex === index}
           />
@@ -323,17 +323,15 @@ export const HeroSlider = ({
       )}
     </div>
   );
-};
+}
 
-// Sub-components with improved styling
-
-const SlideContent = ({
+function SlideContent({
   slide,
   isActive,
 }: {
   slide: Slide;
   isActive: boolean;
-}) => {
+}) {
   return (
     <div
       className="relative flex-shrink-0 w-full h-full"
@@ -342,8 +340,6 @@ const SlideContent = ({
       aria-label={`Slide ${slide.id}`}
       aria-hidden={!isActive}
     >
-      {/* Background Image with Improved Treatment */}
-
       <div className="absolute inset-0 overflow-hidden">
         <img
           src={slide.image}
@@ -360,34 +356,36 @@ const SlideContent = ({
       </div>
     </div>
   );
-};
+}
 
-const NavigationArrows = ({
+function NavigationArrows({
   onPrev,
   onNext,
 }: {
   onPrev: () => void;
   onNext: () => void;
-}) => (
-  <>
-    <button
-      onClick={onPrev}
-      className="absolute shadow-md left-0 top-1/2 -translate-y-1/2 z-40 rounded-full bg-black/20 backdrop-blur-md hover:bg-black/40 opacity-0 group-hover:opacity-100 -translate-x-8 group-hover:translate-x-0 active:outline-none transition-all duration-200 p-2 pointer-events-auto"
-      aria-label="Previous slide"
-    >
-      <ChevronLeft className="size-5 text-white mr-0.5" />
-    </button>
-    <button
-      onClick={onNext}
-      className="absolute shadow-md right-0 top-1/2 -translate-y-1/2 z-40 rounded-full bg-black/20 backdrop-blur-md hover:bg-black/40 opacity-0 group-hover:opacity-100 translate-x-8 group-hover:translate-x-0 active:outline-none transition-all duration-200 p-2 pointer-events-auto"
-      aria-label="Next slide"
-    >
-      <ChevronRight className="size-5 text-white ml-0.5" />
-    </button>
-  </>
-);
+}) {
+  return (
+    <>
+      <button
+        onClick={onPrev}
+        className="absolute shadow-md left-0 top-1/2 -translate-y-1/2 z-40 rounded-full bg-black/20 backdrop-blur-md hover:bg-black/40 opacity-0 group-hover:opacity-100 -translate-x-8 group-hover:translate-x-0 active:outline-none transition-all duration-200 p-2 pointer-events-auto"
+        aria-label="Previous slide"
+      >
+        <ChevronLeft className="size-5 text-white mr-0.5" />
+      </button>
+      <button
+        onClick={onNext}
+        className="absolute shadow-md right-0 top-1/2 -translate-y-1/2 z-40 rounded-full bg-black/20 backdrop-blur-md hover:bg-black/40 opacity-0 group-hover:opacity-100 translate-x-8 group-hover:translate-x-0 active:outline-none transition-all duration-200 p-2 pointer-events-auto"
+        aria-label="Next slide"
+      >
+        <ChevronRight className="size-5 text-white ml-0.5" />
+      </button>
+    </>
+  );
+}
 
-const DotsNavigation = ({
+function DotsNavigation({
   total,
   current,
   onDotClick,
@@ -395,20 +393,22 @@ const DotsNavigation = ({
   total: number;
   current: number;
   onDotClick: (index: number) => void;
-}) => (
-  <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-40 flex gap-2">
-    {Array.from({ length: total }).map((_, index) => (
-      <button
-        key={index}
-        onClick={() => onDotClick(index)}
-        className={`h-2 rounded-full transition-all duration-300 active:outline-none ${
-          current === index
-            ? "bg-black w-8"
-            : "bg-black/40 w-2 hover:bg-black/60"
-        }`}
-        aria-label={`Go to slide ${index + 1}`}
-        aria-current={current === index}
-      />
-    ))}
-  </div>
-);
+}) {
+  return (
+    <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-40 flex gap-2">
+      {Array.from({ length: total }).map((_, index) => (
+        <button
+          key={index}
+          onClick={() => onDotClick(index)}
+          className={`h-2 rounded-full transition-all duration-300 active:outline-none ${
+            current === index
+              ? "bg-black w-8"
+              : "bg-black/40 w-2 hover:bg-black/60"
+          }`}
+          aria-label={`Go to slide ${index + 1}`}
+          aria-current={current === index}
+        />
+      ))}
+    </div>
+  );
+}

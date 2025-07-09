@@ -71,6 +71,9 @@ importers:
       '@prisma/client':
         specifier: 6.4.1
         version: 6.4.1(prisma@6.4.1(typescript@5.8.3))(typescript@5.8.3)
+      '@proj-adv/cache':
+        specifier: workspace:*
+        version: link:../../packages/cache
       '@radix-ui/react-accordion':
         specifier: ^1.2.4
         version: 1.2.11(@types/react-dom@18.2.7)(@types/react@18.2.20)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -253,7 +256,16 @@ importers:
         specifier: ^4.2.1
         version: 4.3.2(typescript@5.8.3)(vite@5.4.19(@types/node@22.16.0))
 
-  packages/cache: {}
+  packages/cache:
+    devDependencies:
+      '@proj-adv/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      typescript:
+        specifier: ^5.1.6
+        version: 5.8.3
+
+  packages/typescript-config: {}
 
 packages:
 

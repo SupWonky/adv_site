@@ -4,9 +4,8 @@ import { fileStorage } from "~/storage.server";
 import { data, useFetcher } from "react-router";
 import { createFile, getFileByUri } from "~/models/file.server";
 import { FileType } from "@prisma/client";
-import { withAuth } from "~/lib/auth-action.server";
 
-export const action = withAuth(async ({ request }: Route.ActionArgs) => {
+export const action = async ({ request }: Route.ActionArgs) => {
   try {
     const uploadHandler = async (fileUpload: FileUpload) => {
       if (fileUpload.fieldName === "file") {
@@ -33,23 +32,24 @@ export const action = withAuth(async ({ request }: Route.ActionArgs) => {
       throw new Error();
     }
 
-    return data(
-      {
-        success: 1,
-        file: {
-          id: file.id,
-          url: `/file/${file.uri}`,
-          type: file.type,
-          name: file.name,
-        },
+    const result = {
+      success: 1,
+      file: {
+        id: file.id,
+        url: `/file/${file.uri}`,
+        type: file.type,
+        name: file.name,
       },
-      { status: 200 }
-    );
+    };
+
+    console.log("test");
+
+    return data(result, { status: 200 });
   } catch (e) {
     console.log(e);
     throw Response.json({ success: 0 }, { status: 400 });
   }
-});
+};
 
 export function useFileUpload() {
   const fetcher = useFetcher<typeof action>();

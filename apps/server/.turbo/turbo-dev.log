@@ -3,74 +3,7 @@
 > server@ dev /home/ihop/personal/proj_adv/apps/server
 > react-router dev
 
-[tsconfig-paths] An error occurred while parsing "/home/ihop/personal/proj_adv/packages/cache/tsconfig.json". See below for details. To disable this message, set the `ignoreConfigErrors` option to true.
-TSConfckParseError: failed to resolve "extends":"../../tsconfig.json" in /home/ihop/personal/proj_adv/packages/cache/tsconfig.json
-    at resolveExtends (file:///home/ihop/personal/proj_adv/node_modules/[4m.pnpm[24m/tsconfck@3.1.6_typescript@5.8.3/node_modules/[4mtsconfck[24m/src/parse.js:262:8)
-    at parseExtends (file:///home/ihop/personal/proj_adv/node_modules/[4m.pnpm[24m/tsconfck@3.1.6_typescript@5.8.3/node_modules/[4mtsconfck[24m/src/parse.js:197:24)
-[90m    ... 5 lines matching cause stack trace ...[39m
-    at _createServer (file:///home/ihop/personal/proj_adv/node_modules/[4m.pnpm[24m/vite@5.4.19_@types+node@22.16.0/node_modules/[4mvite[24m/dist/node/chunks/dep-C6uTJdX2.js:62999:18)
-    at dev (/home/ihop/personal/proj_adv/node_modules/[4m.pnpm[24m/@react-router+dev@7.5.0_@react-router+serve@7.5.0_react-router@7.5.0_react-dom@18.3.1_r_8ef5ebbea51b6203ec5c71779e57e031/node_modules/[4m@react-router[24m/dev/dist/cli/index.js:1604:16)
-    at dev2 (/home/ihop/personal/proj_adv/node_modules/[4m.pnpm[24m/@react-router+dev@7.5.0_@react-router+serve@7.5.0_react-router@7.5.0_react-dom@18.3.1_r_8ef5ebbea51b6203ec5c71779e57e031/node_modules/[4m@react-router[24m/dev/dist/cli/index.js:1770:3) {
-  code: [32m'EXTENDS_RESOLVE'[39m,
-  cause: Error: Cannot find module '../../tsconfig.json'
-  Require stack:
-  - /home/ihop/personal/proj_adv/packages/cache/tsconfig.json
-  [90m    at Function.Module._resolveFilename (node:internal/modules/cjs/loader:1145:15)[39m
-  [90m    at Function.resolve (node:internal/modules/helpers:190:19)[39m
-      at resolveExtends (file:///home/ihop/personal/proj_adv/node_modules/[4m.pnpm[24m/tsconfck@3.1.6_typescript@5.8.3/node_modules/[4mtsconfck[24m/src/parse.js:250:14)
-      at parseExtends (file:///home/ihop/personal/proj_adv/node_modules/[4m.pnpm[24m/tsconfck@3.1.6_typescript@5.8.3/node_modules/[4mtsconfck[24m/src/parse.js:197:24)
-      at Module.parse (file:///home/ihop/personal/proj_adv/node_modules/[4m.pnpm[24m/tsconfck@3.1.6_typescript@5.8.3/node_modules/[4mtsconfck[24m/src/parse.js:54:23)
-      at async Promise.all (index 0)
-      at configResolved (file:///home/ihop/personal/proj_adv/node_modules/[4m.pnpm[24m/vite-tsconfig-paths@4.3.2_typescript@5.8.3_vite@5.4.19_@types+node@22.16.0_/node_modules/[4mvite-tsconfig-paths[24m/src/index.ts:96:9)
-      at async Promise.all (index 0)
-      at resolveConfig (file:///home/ihop/personal/proj_adv/node_modules/[4m.pnpm[24m/vite@5.4.19_@types+node@22.16.0/node_modules/[4mvite[24m/dist/node/chunks/dep-C6uTJdX2.js:66671:3)
-      at _createServer (file:///home/ihop/personal/proj_adv/node_modules/[4m.pnpm[24m/vite@5.4.19_@types+node@22.16.0/node_modules/[4mvite[24m/dist/node/chunks/dep-C6uTJdX2.js:62999:18) {
-    code: [32m'MODULE_NOT_FOUND'[39m,
-    requireStack: [ [32m'/home/ihop/personal/proj_adv/packages/cache/tsconfig.json'[39m ]
-  },
-  tsconfigFile: [32m'/home/ihop/personal/proj_adv/packages/cache/tsconfig.json'[39m
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-[1;1H[0J[tsconfig-paths] An error occurred while parsing "/home/ihop/personal/proj_adv/packages/cache/tsconfig.json". See below for details. To disable this message, set the `ignoreConfigErrors` option to true. [33m(x2)[39m
-TSConfckParseError: failed to resolve "extends":"../../tsconfig.json" in /home/ihop/personal/proj_adv/packages/cache/tsconfig.json
-    at resolveExtends (file:///home/ihop/personal/proj_adv/node_modules/[4m.pnpm[24m/tsconfck@3.1.6_typescript@5.8.3/node_modules/[4mtsconfck[24m/src/parse.js:262:8)
-    at parseExtends (file:///home/ihop/personal/proj_adv/node_modules/[4m.pnpm[24m/tsconfck@3.1.6_typescript@5.8.3/node_modules/[4mtsconfck[24m/src/parse.js:197:24)
-[90m    ... 5 lines matching cause stack trace ...[39m
-    at _createServer (file:///home/ihop/personal/proj_adv/node_modules/[4m.pnpm[24m/vite@5.4.19_@types+node@22.16.0/node_modules/[4mvite[24m/dist/node/chunks/dep-C6uTJdX2.js:62999:18)
-    at configResolved (/home/ihop/personal/proj_adv/node_modules/[4m.pnpm[24m/@react-router+dev@7.5.0_@react-router+serve@7.5.0_react-router@7.5.0_react-dom@18.3.1_r_8ef5ebbea51b6203ec5c71779e57e031/node_modules/[4m@react-router[24m/dev/dist/vite.js:2884:29)
-    at async Promise.all (index 1) {
-  code: [32m'EXTENDS_RESOLVE'[39m,
-  cause: Error: Cannot find module '../../tsconfig.json'
-  Require stack:
-  - /home/ihop/personal/proj_adv/packages/cache/tsconfig.json
-  [90m    at Function.Module._resolveFilename (node:internal/modules/cjs/loader:1145:15)[39m
-  [90m    at Function.resolve (node:internal/modules/helpers:190:19)[39m
-      at resolveExtends (file:///home/ihop/personal/proj_adv/node_modules/[4m.pnpm[24m/tsconfck@3.1.6_typescript@5.8.3/node_modules/[4mtsconfck[24m/src/parse.js:250:14)
-      at parseExtends (file:///home/ihop/personal/proj_adv/node_modules/[4m.pnpm[24m/tsconfck@3.1.6_typescript@5.8.3/node_modules/[4mtsconfck[24m/src/parse.js:197:24)
-      at Module.parse (file:///home/ihop/personal/proj_adv/node_modules/[4m.pnpm[24m/tsconfck@3.1.6_typescript@5.8.3/node_modules/[4mtsconfck[24m/src/parse.js:54:23)
-      at async Promise.all (index 0)
-      at configResolved (file:///home/ihop/personal/proj_adv/node_modules/[4m.pnpm[24m/vite-tsconfig-paths@4.3.2_typescript@5.8.3_vite@5.4.19_@types+node@22.16.0_/node_modules/[4mvite-tsconfig-paths[24m/src/index.ts:96:9)
-      at async Promise.all (index 0)
-      at resolveConfig (file:///home/ihop/personal/proj_adv/node_modules/[4m.pnpm[24m/vite@5.4.19_@types+node@22.16.0/node_modules/[4mvite[24m/dist/node/chunks/dep-C6uTJdX2.js:66671:3)
-      at _createServer (file:///home/ihop/personal/proj_adv/node_modules/[4m.pnpm[24m/vite@5.4.19_@types+node@22.16.0/node_modules/[4mvite[24m/dist/node/chunks/dep-C6uTJdX2.js:62999:18) {
-    code: [32m'MODULE_NOT_FOUND'[39m,
-    requireStack: [ [32m'/home/ihop/personal/proj_adv/packages/cache/tsconfig.json'[39m ]
-  },
-  tsconfigFile: [32m'/home/ihop/personal/proj_adv/packages/cache/tsconfig.json'[39m
-}
+Re-optimizing dependencies because lockfile has changed
   [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m5173[22m/[39m
 [2m  [32m➜[39m  [1mNetwork[22m[2m: use [22m[1m--host[22m[2m to expose[22m
 [2m[32m  ➜[39m[22m[2m  press [22m[1mh + enter[22m[2m to show help[22m

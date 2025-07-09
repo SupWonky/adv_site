@@ -24,17 +24,6 @@ export async function getProjectById(id: Project["id"]) {
     },
     include: {
       images: true,
-    },
-  });
-}
-
-export async function getProjectBySlug(slug: Project["slug"]) {
-  return prisma.project.findFirst({
-    where: {
-      slug,
-    },
-    include: {
-      images: true,
       category: true,
     },
   });
@@ -53,7 +42,7 @@ export async function getPopularProjects(limit: number) {
 
   const ids = groupSubmissions
     .map((item) => item.projectId)
-    .filter((id): id is string => id !== null);
+    .filter((id): id is number => id !== null);
 
   return prisma.project.findMany({
     ...(ids.length >= limit ? { where: { id: { in: ids } } } : {}),
@@ -68,10 +57,10 @@ export async function getProjectCategories() {
   return prisma.projectCategory.findMany();
 }
 
-export async function getProjectCategory(slug: ProjectCategory["slug"]) {
+export async function getProjectCategory(id: ProjectCategory["id"]) {
   return prisma.projectCategory.findFirst({
     where: {
-      slug,
+      id,
     },
   });
 }

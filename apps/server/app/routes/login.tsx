@@ -18,15 +18,9 @@ import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
 import { Checkbox } from "~/components/ui/checkbox";
 import { Route } from "./+types/login";
-
-const schema = z.object({
-  email: z
-    .string({ message: "Введите почту" })
-    .email({ message: "Неправильный формат почты" }),
-  password: z.string({ message: "Введите пароль" }),
-  remember: z.boolean().optional(),
-  redirectTo: z.string().optional(),
-});
+import { InputConform } from "~/components/conform/input";
+import { LoginSchmea } from "~/schema/zod";
+import { Field, FieldError } from "~/components/field";
 
 export const loader = async ({ request }: Route.LoaderArgs) => {
   const userId = await getUserId(request);
@@ -39,7 +33,7 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
 export const action = async ({ request }: Route.ActionArgs) => {
   const fromData = await request.formData();
   const submission = parseWithZod(fromData, {
-    schema,
+    schema: LoginSchmea,
   });
 
   if (submission.status !== "success") {
@@ -74,7 +68,9 @@ export default function LoginPage({ actionData }: Route.ComponentProps) {
   const redirectTo = searchParams.get("redirectTo") || "/";
   const [form, fields] = useForm({
     lastResult: actionData,
-    constraint: getZodConstraint(schema),
+    onValidate({ formData }) {
+      return parseWithZod(formData, { schema: LoginSchmea });
+    },
   });
 
   return (
@@ -89,53 +85,45 @@ export default function LoginPage({ actionData }: Route.ComponentProps) {
           )}
         </CardHeader>
         <CardContent>
-          <Form method="post" className="space-y-4" id={form.id}>
-            <div>
-              <Label htmlFor="email" className="block text-sm">
-                Email
-              </Label>
-              <div className="mt-1">
-                <Input
-                  id="email"
-                  name={fields.email.name}
-                  autoComplete="email"
-                />
-                {fields.email.errors && (
-                  <div className="pt-1 text-sm text-destructive">
-                    {fields.email.errors}
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div>
-              <Label htmlFor="password" className="text-sm font-medium">
-                Пароль
-              </Label>
-              <div className="mt-1">
-                <Input
-                  id="password"
-                  name={fields.password.name}
-                  type="password"
-                  autoComplete="current-password"
-                />
-                {fields.password.errors && (
-                  <div className="pt-1 text-sm text-destructive">
-                    {fields.password.errors}
-                  </div>
-                )}
-              </div>
-            </div>
-
+          <Form method="post" id={form.id}>
             <input
               type="hidden"
               name={fields.redirectTo.name}
               value={redirectTo}
             />
-            <Button type="submit" className="w-full">
-              Войти
-            </Button>
-            <div className="flex items-center justify-between">
+            <div className="space-y-4">
+              <Field>
+                <Label htmlFor="email" className="block text-sm">
+                  Email
+                </Label>
+
+                <InputConform
+                  meta={fields.email}
+                  autoComplete="email"
+                  type="text"
+                />
+                {fields.email.errors && (
+                  <FieldError>{fields.email.errors}</FieldError>
+                )}
+              </Field>
+
+              <Field>
+                <Label htmlFor="password" className="text-sm font-medium">
+                  Пароль
+                </Label>
+
+                <InputConform
+                  meta={fields.password}
+                  type="password"
+                  autoComplete="current-password"
+                />
+                {fields.password.errors && (
+                  <FieldError>{fields.password.errors}</FieldError>
+                )}
+              </Field>
+            </div>
+
+            <div className="flex items-center justify-between mt-2.5">
               <div className="flex items-center">
                 <Checkbox
                   id="remember"
@@ -150,6 +138,10 @@ export default function LoginPage({ actionData }: Route.ComponentProps) {
                 </Label>
               </div>
             </div>
+
+            <Button type="submit" className="w-full mt-5 font-semibold">
+              Войти
+            </Button>
           </Form>
         </CardContent>
       </Card>

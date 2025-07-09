@@ -7,7 +7,7 @@ import { SiteHeader } from "~/components/header";
 import { getChatBySession } from "~/models/chat.server";
 import { getProjectCategories } from "~/models/project.server";
 import { getServicesTree } from "~/models/service.server";
-import { getSetting } from "~/models/setting.server";
+import { settingService } from "~/models/setting.server";
 import { SETTINGS_REGISTRY } from "~/routes/admin/settings";
 import { getSessionId } from "~/session.server";
 
@@ -17,7 +17,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const [services, projectCategories, info, chat] = await Promise.all([
     getServicesTree(),
     getProjectCategories(),
-    getSetting("info", SETTINGS_REGISTRY.info.schema),
+    settingService.getSetting("info", SETTINGS_REGISTRY.info.schema),
     sessionId ? getChatBySession(sessionId) : Promise.resolve(null),
   ]);
 

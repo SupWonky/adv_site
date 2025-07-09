@@ -80,7 +80,7 @@ export function User() {
           <DropdownMenuSeparator />
           <DropdownMenuItem>Профиль</DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <Link to="/settings">Настройки</Link>
+            <Link to="/admin/settings">Настройки</Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <LogoutDropdownMenuButton />

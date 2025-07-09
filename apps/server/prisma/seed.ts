@@ -109,28 +109,6 @@ async function parseCategory(
     const upload = await uploadRes.json();
 
     imageId = upload.file.id;
-
-    // try {
-    //   image = await prisma.file.create({
-    //     data: {
-    //       uri: upload.file.url,
-    //       type: "IMAGE",
-    //     },
-    //   });
-    // } catch (e) {
-    //   if (
-    //     e instanceof Prisma.PrismaClientKnownRequestError &&
-    //     e.code === "P2002"
-    //   ) {
-    //     image = await prisma.file.findUniqueOrThrow({
-    //       where: {
-    //         uri: imageUrl,
-    //       },
-    //     });
-    //   } else {
-    //     throw e;
-    //   }
-    // }
   }
 
   const service: Service = {

@@ -12,10 +12,10 @@ export default [
     route("login", "./routes/login.tsx"),
     route("services", "./routes/services/index.tsx"),
     route("services/*", "./routes/services/service.tsx"),
-    route("projects", "./routes/projects/index.tsx", [
-      route(":categorySlug", "./routes/projects/category.tsx"),
+    ...prefix("projects", [
+      index("./routes/projects/index.tsx"),
+      route(":slug", "./routes/projects/project.tsx"),
     ]),
-    route("project/:slug", "./routes/projects/project.tsx"),
   ]),
   ...prefix("api/v1", [
     route("chat", "./routes/api/v1/chat.ts"),

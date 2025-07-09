@@ -14,9 +14,11 @@ export async function createChat({
 }
 
 export async function getChatBySession(sessionId: Chat["guestSessionId"]) {
+  console.log(sessionId);
+
   return prisma.chat.findFirst({
     where: {
-      guestSessionId: sessionId,
+      guestSessionId: { equals: sessionId },
     },
     include: {
       messages: true,

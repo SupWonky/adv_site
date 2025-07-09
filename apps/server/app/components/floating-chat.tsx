@@ -111,6 +111,12 @@ export function FloatingChat({ chat }: { chat?: Chat }) {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  useEffect(() => {
+    if (chat) {
+      setMessages(chat.messages);
+    }
+  }, [chat?.id]);
+
   if (user) {
     return null;
   }

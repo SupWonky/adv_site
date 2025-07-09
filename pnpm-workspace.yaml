@@ -1,10 +1,10 @@
 packages:
-  - apps/*
   - packages/*
+  - apps/*
 
 ignoredBuiltDependencies:
-  - '@prisma/client'
-  - '@prisma/engines'
+  - "@prisma/client"
+  - "@prisma/engines"
   - esbuild
   - prisma
   - unrs-resolver

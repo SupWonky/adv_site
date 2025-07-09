@@ -30,7 +30,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       throw new Response("Not Found", { status: 404 });
     }
 
-    const existingChat = await getChatBySession({ sessionId: sessionId });
+    const existingChat = await getChatBySession(sessionId);
 
     if (existingChat) {
       newMessage = await createMessage({

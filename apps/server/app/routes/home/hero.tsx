@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import { Button } from "~/components/ui/button";
-import { cn } from "~/lib/utils";
+import { cn, constructSlug } from "~/lib/utils";
 
 // Define the type for a service item
 interface ServiceItem {
@@ -126,7 +126,7 @@ function ServiceCard({
 
 // Define TypeScript interface for project data
 interface Project {
-  id: string;
+  id: number;
   title: string;
   category: string;
   slug: string;
@@ -166,7 +166,7 @@ export function ProjectSection({ projects }: ProjectShowcaseProps) {
             <Link
               key={project.id}
               className="relative overflow-hidden group h-[300px] cursor-pointer"
-              to={`/project/${project.slug}`}
+              to={`/projects/${constructSlug(project)}`}
               prefetch="intent"
             >
               <img

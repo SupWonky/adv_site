@@ -1,13 +1,19 @@
-import { getProjectBySlug } from "~/models/project.server";
-import { Route } from "./+types/project";
+import { getProjectById } from "~/models/project.server";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 import { useState } from "react";
-import { getImageURL } from "~/lib/utils";
+import { getImageURL, parseParams } from "~/lib/utils";
 import { PageHeading } from "~/components/heading";
 import { siteConfig } from "~/config/site";
+import { Route } from "./+types/project";
 
 export async function loader({ params }: Route.LoaderArgs) {
-  const project = await getProjectBySlug(params.slug);
+  const parts = parseParams(params.slug);
+
+  if (!parts) {
+    throw new Response("Not Found", { status: 404 });
+  }
+
+  const project = await getProjectById(Number(parts.id));
 
   if (!project) {
     throw new Response("Not Found", { status: 404 });

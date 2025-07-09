@@ -8,7 +8,7 @@ import {
 import { PageHeading } from "../../components/heading";
 import { Menu, MenuItemProps } from "./menu";
 import { Route } from "./+types/service";
-import { getImageURL } from "~/lib/utils";
+import { getImageURL, parseParams } from "~/lib/utils";
 import { RichText } from "~/components/editor/richText";
 import { useMemo } from "react";
 

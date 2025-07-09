@@ -13,14 +13,13 @@ import {
 } from "lucide-react";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
-import { Card, CardContent } from "~/components/ui/card";
+import { Card } from "~/components/ui/card";
 import {
   deleteService,
   getServiceList,
   updateServiceStatus,
 } from "~/models/service.server";
-import { requireUserId } from "~/session.server";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { getImageURL } from "~/lib/utils";
 import {
   DropdownMenu,
@@ -32,7 +31,6 @@ import {
 import { ScrollArea, ScrollBar } from "~/components/ui/scroll-area";
 import { withAuth } from "~/lib/auth-action.server";
 
-// TypeScript interfaces
 interface Service {
   id: string;
   name: string;
@@ -93,14 +91,14 @@ export default function ServicesPage() {
   const [expandedCategories, setExpandedCategories] =
     useState<ExpandedCategories>({});
 
-  const toggleCategory = (categoryId: string): void => {
+  function onExpand(categoryId: string) {
     setExpandedCategories((prev) => ({
       ...prev,
       [categoryId]: !prev[categoryId],
     }));
-  };
+  }
 
-  const buildServiceTree = (): ServiceNode[] => {
+  const serviceTree = useMemo(() => {
     const serviceMap: Record<string, ServiceNode> = {};
     services.forEach((service) => {
       serviceMap[service.id] = { ...service, children: [] };
@@ -116,9 +114,7 @@ export default function ServicesPage() {
     });
 
     return tree;
-  };
-
-  const serviceTree = buildServiceTree();
+  }, [services]);
 
   const TreeNode = ({
     node,
@@ -141,7 +137,7 @@ export default function ServicesPage() {
                 variant="ghost"
                 size="sm"
                 className="p-0 h-6 w-6 mr-2 flex-shrink-0"
-                onClick={() => toggleCategory(node.id)}
+                onClick={() => onExpand(node.id)}
               >
                 {isExpanded ? (
                   <ChevronDown className="h-4 w-4" />
